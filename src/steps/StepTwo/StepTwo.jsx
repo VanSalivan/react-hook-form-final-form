@@ -6,6 +6,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Checkbox, FormControlLabel, Typography } from '@material-ui/core';
 import { parsePhoneNumberFromString } from 'libphonenumber-js'
 
+import { useData } from '../../DataContext';
 import MainContainer from '../../components/componentsUI/MainContainer';
 import FormUI from '../../components/componentsUI/FormUI';
 import { InputUI } from '../../components/componentsUI/InputUI/InputUI';
@@ -18,7 +19,9 @@ const schema = yup.object().shape({
 
 const StepTwo = () => {
   const navigate = useNavigate();
-  const { register, handleSubmit, watch, formState: { errors }} = useForm({
+  const { data, setValues } = useData();
+  const { register, handleSubmit, watch, formState: { errors } } = useForm({
+    defaultValues: { email: data.email, hasPhone: data.hasPhone, phoneNumber: data.phoneNumber },
     mode: 'onBlur',
     resolver: yupResolver(schema)
   });
@@ -27,17 +30,16 @@ const StepTwo = () => {
 
   const onSubmit = (data) => {
     console.log(data)
+    setValues(data);
     navigate('/step3');
   };
 
 
   const normalizePhoneNumber = (value) => {
     const phoneNumber = parsePhoneNumberFromString(value);
-
     if (!phoneNumber) {
       return value;
     }
-
     return phoneNumber.formatInternational()
   };
 
@@ -59,6 +61,8 @@ const StepTwo = () => {
           label='Do you have a phone'
           control={
             <Checkbox
+              defaultValue={ data.hasPhone }
+              defaultChecked={ data.hasPhone }
               {...register('hasPhone')}
               name='hasPhone'
               color='primary'
@@ -69,14 +73,12 @@ const StepTwo = () => {
         {
           hasPhone && (
             <InputUI
-              {...register('tel')}
+              {...register('phoneNumber')}
               id="phoneNumber"
               type='tel'
               label='Phone number'
               name='phoneNumber'
-              onChange={(event) => {
-                event.target.value = normalizePhoneNumber(event.target.value)
-              }}
+              onChange={event => event.target.value = normalizePhoneNumber(event.target.value)}
             />
           )
         }

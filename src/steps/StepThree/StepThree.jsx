@@ -2,6 +2,7 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Typography } from '@material-ui/core';
 
+import { useData } from '../../DataContext';
 import MainContainer from '../../components/componentsUI/MainContainer';
 import FormUI from '../../components/componentsUI/FormUI';
 import PrimatyButton from '../../components/componentsUI/PrimaryButton';
@@ -10,10 +11,16 @@ import { useNavigate } from 'react-router';
 
 const StepThree = () => {
   const navigate = useNavigate();
-  const { control, handleSubmit } = useForm();
+  const { data, setValues } = useData();
+  const { control, handleSubmit } = useForm({
+    defaultValues: {
+      files: data.files,
+    },
+  });
 
   const onSubmit = (data) => {
-    console.log(data)
+    console.log(data);
+    setValues(data);
     navigate('/result');
   };
 

@@ -5,10 +5,12 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Typography } from '@material-ui/core';
 
+import { useData } from '../../DataContext';
 import MainContainer from '../../components/componentsUI/MainContainer';
 import FormUI from '../../components/componentsUI/FormUI';
 import { InputUI } from '../../components/componentsUI/InputUI/InputUI';
 import PrimatyButton from '../../components/componentsUI/PrimaryButton';
+
 
 const schema = yup.object().shape({
   firstName: yup
@@ -23,14 +25,16 @@ const schema = yup.object().shape({
 
 const StepOne = () => {
   let navigate = useNavigate();
-
-  const { register, handleSubmit, formState: { errors }} = useForm({
+  const { data, setValues } = useData();
+  const { register, handleSubmit, formState: { errors } } = useForm({
+    defaultValues: {firstName: data.firstName, lastName: data.lastName },
     mode: 'onBlur',
     resolver: yupResolver(schema),
   });
 
   const onSubmit = (data) => {
     console.log(data)
+    setValues(data);
     navigate('step2');
   };
 

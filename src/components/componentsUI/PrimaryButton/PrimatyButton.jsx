@@ -7,11 +7,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const PrimatyButton = ({ children, props }) => {
+const PrimatyButton = ({ children, props, onClick }) => {
   const styles = useStyles();
 
   return (
     <Button
+      onClick={onClick}
       className={styles.root}
       type='submit'
       fullWidth
