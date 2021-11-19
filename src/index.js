@@ -8,7 +8,7 @@ import { DataProvider } from './DataContext';
 
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter basename="/react-hook-form-final-form/">
+    <BrowserRouter basename="react-hook-form-final-form">
       <DataProvider>
         <App />
       </DataProvider>

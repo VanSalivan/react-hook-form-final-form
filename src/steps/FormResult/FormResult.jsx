@@ -57,14 +57,12 @@ const FormResult = () => {
       body: formData,
     });
 
-    if (res.status !== 500) {
-      setSuccess(true);
-      Swal.fire(
-        'Great job!',
-        'You send a form! Though there is no bek for it =(',
-        'success'
-      );
-    }
+    setSuccess(true);
+    Swal.fire(
+      'Great job!',
+      'You send a form! Though there is no bek for it =(',
+      'success'
+    );
   };
 
   if (success) {
@@ -93,13 +91,15 @@ const FormResult = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {entries.map((entry) => (
-                entry[1] &&
-                <TableRow key={entry[0]}>
-                  <TableCell>{entry[0]}</TableCell>
-                  <TableCell align='right'>{entry[1]}</TableCell>
-                </TableRow>
-              ))}
+              {entries.map(
+                (entry) =>
+                  entry[1] && (
+                    <TableRow key={entry[0]}>
+                      <TableCell>{entry[0]}</TableCell>
+                      <TableCell align='right'>{entry[1]}</TableCell>
+                    </TableRow>
+                  )
+              )}
             </TableBody>
           </Table>
         </TableContainer>
